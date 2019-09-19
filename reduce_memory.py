@@ -25,7 +25,12 @@ def reduce_mem_usage(df):
                 else:
                     df[col] = df[col].astype(np.float64)
         else:
-            df[col] = df[col].astype('category')
+            unique_items = len(pd.unique(df[col])) 
+            total_items = len(df[col])
+            if (unique_items/total_items)<0.7:
+                df[col] = df[col].astype('category')
+            else:
+                pass
 
     end_mem = df.memory_usage().sum() / 1024**2
     print('Memory usage after optimization is: {:.2f} MB'.format(end_mem))
